@@ -10,11 +10,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //Load Image From Server
-        Picasso.with(this).load(urlLogo).resize(180,180).into(imageView);
+        Picasso.with(this).load(urlLogo).resize(180, 180).into(imageView);
 
 
     }   //onCreate
@@ -48,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         private String myUserString, myPasswordString;
         private String[] loginStrings;
         private static final String urlJSON = "http://swiftcodingthai.com/natt/get_user_natt.php";
+        private boolean statusABoolean = true;
+
 
         public SynUser(Context context, String myUserString, String myPasswordString) {
             this.context = context;
@@ -67,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
                 return response.body().string();
 
 
-
             } catch (Exception e) {
                 Log.d("NattV2", "e doInBack ==> " + e.toString());
                 return null;
@@ -79,6 +84,51 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(s);
 
             Log.d("NattV2", "JSON ==> " + s);
+
+            try {
+
+                JSONArray jsonArray = new JSONArray(s);
+                for (int i = 0; i < jsonArray.length(); i += 1) {
+
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                    if (myUserString.equals(jsonObject.getString("User"))) {
+
+                        loginStrings = new String[9];
+                        loginStrings[0] = jsonObject.getString("id");
+                        loginStrings[1] = jsonObject.getString("Name");
+                        loginStrings[2] = jsonObject.getString("User");
+                        loginStrings[3] = jsonObject.getString("Password");
+                        loginStrings[4] = jsonObject.getString("Position");
+                        loginStrings[5] = jsonObject.getString("Weight");
+                        loginStrings[6] = jsonObject.getString("Height");
+                        loginStrings[7] = jsonObject.getString("Age");
+                        loginStrings[8] = jsonObject.getString("BMI");
+
+                        statusABoolean = false;
+
+                    }
+                }   //for
+
+                if (statusABoolean) {
+                    MyAlert myAlert = new MyAlert();
+                    myAlert.myDialog(context, R.drawable.kon48, "User False",
+                            "No" + myUserString + "in my DB");
+                } else if (!(myPasswordString.equals(loginStrings[3]))) {
+                    //Password False
+                    MyAlert myAlert = new MyAlert();
+                    myAlert.myDialog(context, R.drawable.rat48, "Password False",
+                            "Please Try Again Password False");
+
+
+                } else {
+                    //Password True
+                    Toast.makeText(context, "Welcome" + loginStrings[1], Toast.LENGTH_SHORT).show();
+                }
+
+            } catch (Exception e) {
+                Log.d("NattV2", "e onPost ==> " + e.toString());
+            }
 
         }   //onPost
 
@@ -101,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
         if (userString.equals("") || passwordString.equals("")) {
             //Have Space
             MyAlert myAlert = new MyAlert();
-            myAlert.myDialog(this,R.drawable.bird48, "Have space", "กรอกข้อมูลให้ครบ");
+            myAlert.myDialog(this, R.drawable.bird48, "Have space", "กรอกข้อมูลให้ครบ");
 
         } else {
             //No space
