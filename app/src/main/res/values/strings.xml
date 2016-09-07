@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">ServiceBMI</string>
+
+    <string name="signin">Sing In</string>
+    <string name="signup">Sign Up</string>
+    <string name="name">ชื่อ - นามสกุล :</string>
+    <string name="user">User :</string>
+    <string name="password1">Password :</string>
+    <string name="password2">Re-Password :</string>
 </resources>
