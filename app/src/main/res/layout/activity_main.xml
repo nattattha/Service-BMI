@@ -21,7 +21,8 @@
             android:layout_height="wrap_content"
             android:text="@string/signin"
             android:id="@+id/button"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:onClick="clickSingIn" />
 
         <Button
             android:layout_width="wrap_content"
@@ -63,6 +64,18 @@
             android:hint="Password"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="http://www.office365thailand.com"
+            android:id="@+id/textView6"
+            android:textSize="@dimen/h2"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:onClick="clickWebSite" />
     </LinearLayout>
 
 </RelativeLayout>
