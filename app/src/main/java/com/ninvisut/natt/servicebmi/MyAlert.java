@@ -17,7 +17,7 @@ public class MyAlert {
         builder.setCancelable(false);
         builder.setIcon(intIcon);
         builder.setTitle(strTitle);
-        builder.setTitle(strMessage);
+        builder.setMessage(strMessage);
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
